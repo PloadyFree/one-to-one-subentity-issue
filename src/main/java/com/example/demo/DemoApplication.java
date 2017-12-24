@@ -8,17 +8,20 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class DemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 
-	@Bean
+    @Bean
     public CommandLineRunner test(MainEntityRepository repo) {
-	    return args -> {
+        return args -> {
             MainEntity main = new MainEntity();
-            main.setSubEntity(new SubEntity());
-            repo.save(main);
+            SubEntity sub = new SubEntity();
 
+            main.setSubEntity(sub);
+            sub.setMainEntity(main);
+
+            repo.save(main);
             repo.findAll().forEach(System.out::println);
         };
     }
